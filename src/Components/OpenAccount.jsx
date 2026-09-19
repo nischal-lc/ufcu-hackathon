@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Wizard from "./Wizard";
 import AccountAside from "./AccountAside";
 
@@ -33,6 +33,35 @@ const steps = [
   "Disclosures",
   "Review",
 ];
+
+const APPLICATION_STORAGE_KEY = "ufcu-application";
+
+const defaultFormData = {
+  accountType: 0,
+  organization: "",
+  cardDesign: "",
+  joinCouncil: false,
+  firstName: "",
+  middleName: "",
+  lastName: "",
+  dateOfBirth: "",
+  email: "",
+  phone: "",
+  ssn: "",
+  identityConfirmed: false,
+  address: "",
+  apartment: "",
+  state: "",
+  city: "",
+  zipCode: "",
+  mailingAddressSame: true,
+  fundingNow: "",
+  fundingMethod: "",
+  checkingAmount: "",
+  savingsAmount: "",
+  courtesyPay: false,
+  disclosuresAccepted: false,
+};
 
 const fundingMethods = [
   {
@@ -183,43 +212,57 @@ const OptionIcon = ({ type }) => {
 };
 
 const OpenAccount = () => {
-  const [currentStep, setCurrentStep] = useState(0);
+  const [savedApplication] = useState(() => {
+    const saved = localStorage.getItem(APPLICATION_STORAGE_KEY);
+    if (!saved) return null;
+
+    try {
+      return JSON.parse(saved);
+    } catch (error) {
+      console.error("Unable to load saved application.", error);
+      return null;
+    }
+  });
+  const [currentStep, setCurrentStep] = useState(
+    () => savedApplication?.currentStep ?? 0,
+  );
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [showSsn, setShowSsn] = useState(false);
   const formRef = useRef(null);
-  const [formData, setFormData] = useState({
-    accountType: 0,
-    organization: "",
+  const [formData, setFormData] = useState(
+    () => ({ ...defaultFormData, ...savedApplication?.formData }),
+  );
 
-    cardDesign: "",
-    joinCouncil: false,
-    firstName: "",
-    middleName: "",
-    lastName: "",
-    dateOfBirth: "",
-    email: "",
-    phone: "",
-    ssn: "",
-    identityConfirmed: false,
-    address: "",
-    apartment: "",
-    state: "",
-    city: "",
-    zipCode: "",
-    mailingAddressSame: true,
-    fundingNow: "",
-    fundingMethod: "",
-    checkingAmount: "",
-    savingsAmount: "",
-    courtesyPay: false,
-    disclosuresAccepted: false,
-  });
+  const saveApplication = useCallback(
+    (step = currentStep) => {
+    localStorage.setItem(
+      APPLICATION_STORAGE_KEY,
+        JSON.stringify({ currentStep: step, formData }),
+    );
+    },
+    [currentStep, formData],
+  );
+
+  useEffect(() => {
+    const handleSave = () => saveApplication();
+    window.addEventListener("ufcu-save-application", handleSave);
+
+    return () =>
+      window.removeEventListener("ufcu-save-application", handleSave);
+  }, [saveApplication]);
+
+  useEffect(() => {
+    saveApplication();
+  }, [saveApplication]);
 
   const updateField = (field, value) => {
     setFormData((data) => ({ ...data, [field]: value }));
   };
 
   const goToNextStep = () => {
+    const nextStep = currentStep + 1;
+    saveApplication(nextStep);
+
     if (currentStep === steps.length - 1) {
       setIsSubmitted(true);
       if (selectedCard) {

@@ -19,9 +19,9 @@ const HeroSection = () => (
       </p>
     </div>
     <div className="relative mx-auto flex w-full max-w-360 flex-col items-center justify-center gap-3 px-5 lg:flex-row">
-      <a href="/create-account">
-        <AccountCard recommended>I'm new to UFCU</AccountCard>
-      </a>
+      <AccountCard recommended href="/open-account">
+        I'm new to UFCU
+      </AccountCard>
       <AccountCard member>I'm already a member</AccountCard>
     </div>
   </section>
