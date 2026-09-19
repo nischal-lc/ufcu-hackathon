@@ -49,10 +49,13 @@ const ApplicationComplete = () => {
 
     if (!confettiShown) {
       sessionStorage.setItem("ufcu-confetti-shown", "true");
-      setShowConfetti(true);
+      const startId = window.setTimeout(() => setShowConfetti(true), 0);
       const timeoutId = window.setTimeout(() => setShowConfetti(false), 4200);
 
-      return () => window.clearTimeout(timeoutId);
+      return () => {
+        window.clearTimeout(startId);
+        window.clearTimeout(timeoutId);
+      };
     }
 
     return undefined;
