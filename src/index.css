@@ -90,8 +90,45 @@ p {
   transition: width 2.2s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+.completion-confetti {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  overflow: hidden;
+}
+
+.completion-confetti__piece {
+  position: absolute;
+  top: -1rem;
+  width: 0.55rem;
+  height: 0.9rem;
+  border-radius: 0.15rem;
+  animation-name: completion-confetti-fall;
+  animation-timing-function: cubic-bezier(0.18, 0.72, 0.28, 1);
+  animation-fill-mode: both;
+}
+
+@keyframes completion-confetti-fall {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -1rem, 0) rotate(0deg);
+  }
+  12% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(3rem, 110vh, 0) rotate(720deg);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .card-preview-reveal__gradient {
     transition-duration: 0.01ms;
+  }
+
+  .completion-confetti {
+    display: none;
   }
 }

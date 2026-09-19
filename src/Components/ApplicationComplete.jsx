@@ -30,7 +30,34 @@ const ArrowIcon = () => (
   </svg>
 );
 
+import { useEffect, useState } from "react";
+
+const confettiPieces = Array.from({ length: 32 }, (_, index) => ({
+  id: index,
+  left: `${(index * 29) % 100}%`,
+  delay: `${(index % 8) * 0.08}s`,
+  duration: `${2.4 + (index % 5) * 0.2}s`,
+  color: ["#23335d", "#ef6820", "#c8d8f0", "#fce1d2"][index % 4],
+  rotation: `${(index * 37) % 180}deg`,
+}));
+
 const ApplicationComplete = () => {
+  const [showConfetti, setShowConfetti] = useState(false);
+
+  useEffect(() => {
+    const confettiShown = sessionStorage.getItem("ufcu-confetti-shown");
+
+    if (!confettiShown) {
+      sessionStorage.setItem("ufcu-confetti-shown", "true");
+      setShowConfetti(true);
+      const timeoutId = window.setTimeout(() => setShowConfetti(false), 4200);
+
+      return () => window.clearTimeout(timeoutId);
+    }
+
+    return undefined;
+  }, []);
+
   let selectedCard = { name: "UFCU Classic", image: "/ufcu_default.png" };
   const storedCard = sessionStorage.getItem("ufcu-selected-card");
 
@@ -47,6 +74,23 @@ const ApplicationComplete = () => {
 
   return (
   <div className="min-h-screen bg-[#f8fafc] text-primary-color">
+    {showConfetti && (
+      <div className="completion-confetti" aria-hidden="true">
+        {confettiPieces.map((piece) => (
+          <span
+            key={piece.id}
+            className="completion-confetti__piece"
+            style={{
+              left: piece.left,
+              backgroundColor: piece.color,
+              animationDelay: piece.delay,
+              animationDuration: piece.duration,
+              transform: `rotate(${piece.rotation})`,
+            }}
+          />
+        ))}
+      </div>
+    )}
     <header className="sticky top-0 z-20 border-b border-subtle-border bg-white">
       <div className="mx-auto flex h-16 max-w-360 items-center justify-between px-5 sm:px-8">
         <a href="/" aria-label="UFCU home">
