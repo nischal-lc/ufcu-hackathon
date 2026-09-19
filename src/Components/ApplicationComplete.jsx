@@ -184,6 +184,13 @@ const ApplicationComplete = () => {
             Learn more about UFCU
             <ArrowIcon />
           </a>
+          <a
+            href="/open-account"
+            className="mt-3 flex items-center gap-2 text-small-text-b font-bold text-secondary-color underline"
+          >
+            I&apos;m new to UFCU
+            <ArrowIcon />
+          </a>
         </div>
       </section>
     </main>
