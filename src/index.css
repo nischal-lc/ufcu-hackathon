@@ -1,0 +1,97 @@
+@import url("https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&display=swap");
+
+@import "tailwindcss";
+
+@theme {
+  --color-primary-color: #23335d;
+  --color-subtle-primary: #cdcde0;
+  --color-lighter-primary: rgba(129, 130, 177, 1);
+  --color-darker-primary: #020442;
+  --color-darkest-primary: #020332;
+  --color-secondary-color: rgba(239, 104, 32, 1);
+  --color-lighter-secondary: rgba(244, 148, 106, 1);
+  --color-subtle-secondary: rgba(252, 225, 210, 1);
+  --color-darker-secondary: rgba(209, 77, 16, 1);
+  --color-darkest-secondary: rgba(105, 57, 41, 1);
+  --color-accent-color: rgba(242, 120, 12, 1);
+  --color-lighter-accent: rgba(246, 160, 85, 1);
+  --color-subtle-accent: rgba(253, 235, 216, 1);
+  --color-darker-accent: rgba(169, 84, 8, 1);
+  --color-darkest-accent: rgba(133, 66, 7, 1);
+  --color-strokes-default: rgba(200, 208, 220, 1);
+  --color-text: #23335d;
+  --color-bg: #ffffff;
+  --font-sans: "Mulish", sans-serif;
+  --font-heading: "PT Serif", sans-serif;
+  --font-inter: "Inter", sans-serif;
+  --text-heading-1: 40px;
+  --text-heading-2: 33px;
+  --text-heading-3: 28px;
+  --text-heading-4: 23px;
+  --text-paragraph-r: 16px;
+  --text-paragraph-i: 16px;
+  --text-paragraph-b: 16px;
+  --text-small-text-r: 14px;
+  --text-small-text-b: 14px;
+  --text-smallest-text-r: 12px;
+  --text-smallest-text-b: 12px;
+  --color-subtle-border: hsla(0, 0%, 0%, 0.1);
+}
+
+:root {
+  font: 16px/145% var(--font-sans);
+  letter-spacing: 0.18px;
+  color-scheme: light;  
+  color: var(--color-text);
+  background: var(--color-bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  @media (max-width: 1024px) {
+    font-size: 16px;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-inter);
+  min-width: 320px;
+  background: #fff;
+}
+
+p {
+  margin: 0;
+}
+
+.account-aside__your-info,
+.account-aside__your-info * {
+  font-family: var(--font-sans) !important;
+}
+
+.account-aside {
+  background: linear-gradient(
+    0deg,
+    rgba(200, 216, 240, 1) 0%,
+    rgba(252, 225, 210, 1) 100%
+  );
+}
+
+.card-preview-reveal__gradient {
+  width: var(--card-progress-width);
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.35) 0%,
+    rgba(0, 0, 0, 1) 100%
+  );
+  transition: width 2.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-preview-reveal__gradient {
+    transition-duration: 0.01ms;
+  }
+}
